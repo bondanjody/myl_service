@@ -11,7 +11,14 @@ interface InputLogin {
     password: string
 }
 
+interface OutputLoginService {
+    status: boolean,
+    message: string,
+    token?: string,
+}
+
 export {
     InputRegister,
-    InputLogin
+    InputLogin,
+    OutputLoginService,
 }

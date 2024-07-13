@@ -49,3 +49,7 @@ CREATE TABLE video (
 
 -- Menambahkan kolom `password` pada tabel `user`
 ALTER TABLE `user` ADD COLUMN `password` TEXT;
+
+-- Menambahkan kolom `isActive` pada tabel `user`
+ALTER TABLE `user` ADD COLUMN `isActive` TINYINT(1) DEFAULT 1;
+

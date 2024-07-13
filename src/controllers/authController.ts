@@ -45,10 +45,10 @@ const login = async (req: Request, res: Response) => {
         }
 
         const result = await AuthService.login(username, password);
-        if (result) {
+        if (result.status) {
             res.json(result);
         } else {
-            res.status(401).send('Invalid credentials');
+            res.status(401).json({...result});
         }
     } catch (error) {
         logger.error('Error logging in:', error);
