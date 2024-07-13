@@ -1,7 +1,8 @@
 import pool from '../config/database';
+import { GetAllChannelByUserId } from '../models/channelModel';
 
-const getAllChannelService = async () => {
-    const [rows]: any = await pool.execute('SELECT * FROM channel');
+const getAllChannelService = async (data: GetAllChannelByUserId) => {
+    const [rows]: any = await pool.execute('SELECT * FROM channel WHERE createdBy = ?',[data.userId]);
     return rows;
 };
 

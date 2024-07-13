@@ -5,20 +5,26 @@ import { InputLogin, InputRegister } from '../models/authModel';
 
 const register = async (req: Request, res: Response) => {
     try {
-        const { username, password, email }: InputRegister = req.body;
+        const inputData: InputRegister = req.body;
 
         // Validasi input
-        if (!username || typeof username !== 'string') {
+        if (!inputData.username || typeof inputData.username !== 'string') {
             return res.status(400).json({ message: 'Username is required and must be a string' });
         }
-        if (!password || typeof password !== 'string') {
+        if (!inputData.firstname || typeof inputData.firstname !== 'string') {
+            return res.status(400).json({ message: 'Firstname is required and must be a string' });
+        }
+        if (inputData.lastname != undefined && typeof inputData.lastname !== 'string') {
+            return res.status(400).json({ message: 'Lastname must be a string' });
+        }
+        if (!inputData.password || typeof inputData.password !== 'string') {
             return res.status(400).json({ message: 'Password is required and must be a string' });
         }
-        if (!email || typeof email !== 'string') {
+        if (!inputData.email || typeof inputData.email !== 'string') {
             return res.status(400).json({ message: 'Email is required and must be a string' });
         }
 
-        const user = await AuthService.register(username, password, email);
+        const user = await AuthService.register(inputData);
         res.status(201).json(user);
     } catch (error) {
         logger.error('Error registering user:', error);

@@ -46,3 +46,6 @@ CREATE TABLE video (
   FOREIGN KEY (channel) REFERENCES channel(id),
   FOREIGN KEY (createdBy) REFERENCES user(id)
 );
+
+-- Menambahkan kolom `password` pada tabel `user`
+ALTER TABLE `user` ADD COLUMN `password` TEXT;

@@ -1,10 +1,12 @@
 import { Request, Response } from 'express';
 import { getAllChannelService, createChannelService, updateChannelService, deleteChannelService } from '../services/channelService';
+import { GetAllChannelByUserId } from '../models/channelModel';
 
 const getAllChannelsController = async (req: Request, res: Response) => {
     try {
-        const categories = await getAllChannelService();
-        res.json(categories);
+        const newChannel: GetAllChannelByUserId = req.body
+        const getChannel = await getAllChannelService(newChannel);
+        res.json(getChannel);
     } catch (error) {
         res.status(500).send('Internal Server Error');
     }
