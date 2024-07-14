@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { getAllCategoriesService, createCategoryService, updateCategoryService, deleteCategoryService } from '../services/categoryService';
 import { InputNewCategoryService, OutputNewCategoryService } from '../models/categoryModel';
 
-const getAllCategories = async (req: Request, res: Response) => {
+const getAllCategoriesController = async (req: Request, res: Response) => {
     try {
         const categories = await getAllCategoriesService();
         res.json(categories);
@@ -11,7 +11,7 @@ const getAllCategories = async (req: Request, res: Response) => {
     }
 };
 
-const createCategory = async (req: Request, res: Response) => {
+const createCategoryController = async (req: Request, res: Response) => {
     let result: OutputNewCategoryService = {
         status : false,
         message : "Failed to create category !"
@@ -38,7 +38,7 @@ const createCategory = async (req: Request, res: Response) => {
     }
 };
 
-const updateCategory = async (req: Request, res: Response) => {
+const updateCategoryController = async (req: Request, res: Response) => {
     try {
         const { name } = req.body;
         const category = await updateCategoryService(Number(req.params.id), name);
@@ -52,7 +52,7 @@ const updateCategory = async (req: Request, res: Response) => {
     }
 };
 
-const deleteCategory = async (req: Request, res: Response) => {
+const deleteCategoryController = async (req: Request, res: Response) => {
     try {
         const success = await deleteCategoryService(Number(req.params.id));
         if (success) {
@@ -66,8 +66,8 @@ const deleteCategory = async (req: Request, res: Response) => {
 };
 
 export {
-    getAllCategories,
-    createCategory,
-    updateCategory,
-    deleteCategory
+    getAllCategoriesController,
+    createCategoryController,
+    updateCategoryController,
+    deleteCategoryController
 };

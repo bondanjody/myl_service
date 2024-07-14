@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import authRoutes from './routes/authRoute'
 import categoryRoutes from './routes/categoryRoute';
 import channelRoute from './routes/channelRoute'
+import videoRoute from './routes/videoRoute'
 import dotenv from 'dotenv';
 import logger from './config/logger';
 
@@ -14,6 +15,8 @@ app.use(bodyParser.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/channel', channelRoute);
+app.use('/api/video', videoRoute);
+
 
 app.listen(3000, () => {
   logger.info('Server is running on port 3000');
