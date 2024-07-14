@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { getAllChannelService, createChannelService, updateChannelService, deleteChannelService } from '../services/channelService';
-import { GetAllChannelByUserId } from '../models/channelModel';
+import { GetAllChannelByUserId, InputNewChannelService, OutputNewChannelService } from '../models/channelModel';
 
 const getAllChannelsController = async (req: Request, res: Response) => {
     try {
@@ -13,10 +13,31 @@ const getAllChannelsController = async (req: Request, res: Response) => {
 };
 
 const createChannelController = async (req: Request, res: Response) => {
+    let result: OutputNewChannelService = {
+        status : false,
+        message : "Failed to create channel !"
+    }
     try {
-        const { name } = req.body;
-        const category = await createChannelService(name);
-        res.status(201).json(category);
+        const data: InputNewChannelService = req.body;
+
+        // Validasi input
+        if (!data.name || typeof data.name !== 'string') {
+            result.message = "Channel 'name' harus diisi dan bernilai string !"
+            return res.status(500).json(result);
+        }
+        if (!data.link || typeof data.link !== 'string') {
+            result.message = "Channel 'link' harus diisi dan bernilai string !"
+            return res.status(500).json(result);
+        }
+        const category = await createChannelService(data);
+
+        if (!category.status) {
+            // Jika error
+            res.status(500).json(category);
+        } else {
+            // Jika berhasil
+            res.status(201).json(category);
+        }
     } catch (error) {
         res.status(500).send('Internal Server Error');
     }
