@@ -29,14 +29,14 @@ const createChannelController = async (req: Request, res: Response) => {
             result.message = "Channel 'link' harus diisi dan bernilai string !"
             return res.status(500).json(result);
         }
-        const category = await createChannelService(data);
+        const channel = await createChannelService(data);
 
-        if (!category.status) {
+        if (!channel.status) {
             // Jika error
-            res.status(500).json(category);
+            res.status(500).json(channel);
         } else {
             // Jika berhasil
-            res.status(201).json(category);
+            res.status(201).json(channel);
         }
     } catch (error) {
         res.status(500).send('Internal Server Error');

@@ -26,7 +26,13 @@ const createCategory = async (req: Request, res: Response) => {
         }
         const category = await createCategoryService(data);
         
-        res.status(201).json(category);
+        if (!category.status) {
+            // Jika error
+            res.status(500).json(category);
+        } else {
+            // Jika berhasil
+            res.status(201).json(category);
+        }
     } catch (error) {
         res.status(500).send('Internal Server Error');
     }
