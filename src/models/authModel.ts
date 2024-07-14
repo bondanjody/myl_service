@@ -6,7 +6,7 @@ interface InputRegister {
     password: string
 }
 
-interface InputLogin {
+interface InputLoginService {
     username: string,
     password: string
 }
@@ -19,6 +19,6 @@ interface OutputLoginService {
 
 export {
     InputRegister,
-    InputLogin,
+    InputLoginService,
     OutputLoginService,
 }

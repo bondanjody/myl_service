@@ -1,15 +1,24 @@
 import pool from '../config/database';
+import { InputNewCategoryService, OutputNewCategoryService } from '../models/categoryModel';
 
 const getAllCategoriesService = async () => {
     const [rows]: any = await pool.execute('SELECT * FROM category');
     return rows;
 };
 
-const createCategoryService = async (name: string) => {
-    const [result] = await pool.execute(
-        'INSERT INTO category (name) VALUES (?)',
-        [name]
+const createCategoryService = async (data: InputNewCategoryService): Promise<OutputNewCategoryService> => {
+    const [query] = await pool.execute(
+        'INSERT INTO category (name, createdBy, createdAt) VALUES (?, ?, CURRENT_TIMESTAMP)',
+        [data.name, data.userId]
     );
+    let result: OutputNewCategoryService = {
+        status: false,
+        message: `${query}`
+    }
+    if (query) {
+        result.status = true
+        result.message = "Category created !"
+    }
     return result;
 };
 

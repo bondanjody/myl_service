@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { getAllCategoriesService, createCategoryService, updateCategoryService, deleteCategoryService } from '../services/categoryService';
+import { InputNewCategoryService, OutputNewCategoryService } from '../models/categoryModel';
 
 const getAllCategories = async (req: Request, res: Response) => {
     try {
@@ -11,9 +12,20 @@ const getAllCategories = async (req: Request, res: Response) => {
 };
 
 const createCategory = async (req: Request, res: Response) => {
+    let result: OutputNewCategoryService = {
+        status : false,
+        message : "Failed to create category !"
+    }
     try {
-        const { name } = req.body;
-        const category = await createCategoryService(name);
+        const data: InputNewCategoryService = req.body;
+
+        // Validasi input
+        if (!data.name || typeof data.name !== 'string') {
+            result.message = "Category 'name' harus diisi dan bernilai string !"
+            return res.status(500).json(result);
+        }
+        const category = await createCategoryService(data);
+        
         res.status(201).json(category);
     } catch (error) {
         res.status(500).send('Internal Server Error');

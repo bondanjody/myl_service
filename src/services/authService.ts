@@ -2,7 +2,7 @@ import pool from '../config/database';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { InputRegister, OutputLoginService } from '../models/authModel';
+import { InputLoginService, InputRegister, OutputLoginService } from '../models/authModel';
 
 dotenv.config();
 
@@ -37,16 +37,16 @@ const register = async (inputData: InputRegister) => {
     return result;
 };
 
-const login = async (username: string, password: string) : Promise<OutputLoginService> => {
+const login = async (data: InputLoginService) : Promise<OutputLoginService> => {
     const [rows]: any = await pool.execute(
         'SELECT * FROM user WHERE username = ?',
-        [username]
+        [data.username]
     );
     if (rows.length == 0) {
         return {status: false, message: "User NOT found !"}
     }
     const user = rows[0];
-    if (user && await bcrypt.compare(password, user.password)) {
+    if (user && await bcrypt.compare(data.password, user.password)) {
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET!, { expiresIn: '1h' });
         // return { token, user };
         return { status: true, message: "Login success !", token };

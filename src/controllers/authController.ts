@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import AuthService from '../services/authService';
 import logger from '../config/logger';
-import { InputLogin, InputRegister } from '../models/authModel';
+import { InputLoginService, InputRegister } from '../models/authModel';
 
 const register = async (req: Request, res: Response) => {
     try {
@@ -34,17 +34,17 @@ const register = async (req: Request, res: Response) => {
 
 const login = async (req: Request, res: Response) => {
     try {
-        const { username, password }: InputLogin = req.body;
+        const data: InputLoginService = req.body;
 
         // Validasi input
-        if (!username || typeof username !== 'string') {
+        if (!data.username || typeof data.username !== 'string') {
             return res.status(400).json({ message: 'Username is required and must be a string' });
         }
-        if (!password || typeof password !== 'string') {
+        if (!data.password || typeof data.password !== 'string') {
             return res.status(400).json({ message: 'Password is required and must be a string' });
         }
 
-        const result = await AuthService.login(username, password);
+        const result = await AuthService.login(data);
         if (result.status) {
             res.json(result);
         } else {
